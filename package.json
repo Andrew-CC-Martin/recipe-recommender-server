@@ -1,0 +1,15 @@
+{
+  "name": "recipe-recommender-server",
+  "version": "0.0.0",
+  "description": "recipe recommender server",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "recipe-recommender-server"
+  },
+  "author": "Andrew-CC-Martin",
+  "license": "ISC"
+}
