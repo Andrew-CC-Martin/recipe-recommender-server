@@ -1,26 +1,33 @@
-const http = require("http")
-const url = require("url")
+const app = require('express')()
+const { ApolloServer } = require('apollo-server');
 
-const serverDefinition = (request, response) => {
-    let path = url.parse(request.url).pathname
-    console.log(path)
-    if (path === "/") {
-      response.writeHead(200, { "Content-Type": "text/plain" })
-      response.write("Hello world")
-    } else if (path === "/about") {
-      response.writeHead(200, { "Content-Type": "text/plain" })
-      response.write("About page")
-    } else if (path === "/blog") {
-      response.writeHead(200, { "Content-Type": "text/plain" })
-      response.write("Blog page")
-    } else {
-      response.writeHead(404, { "Content-Type": "text/plain" })
-      response.write("Error page")
-    }
-    response.end()
-  }
+const typeDefs = require('./src/schema')
 
-  const server = http.createServer(serverDefinition)
-server.listen(3000, () => {
-  console.log("Node server created at port 3000")
-})
+// const server = new ApolloServer({ typeDefs });
+
+app.set('port', process.env.PORT || 4000)
+
+app.get('/', (_request, response) => {
+  response.send('Home page');
+});
+
+app.get('/about', (_request, response) => {
+  response.send('About page');
+});
+
+app.use((_request, response) => {
+  response.type('text/plain');
+  response.status(505);
+  response.send('Error page');
+});
+
+//Binding to a port
+const port = process.env.PORT || 4000
+app.listen(port, ()=>{
+ console.log(`Express server started at port ${port}`);
+});
+
+//   const server = http.createServer(serverDefinition)
+// server.listen(3000, () => {
+//   console.log("Node server created at port 3000")
+// })
