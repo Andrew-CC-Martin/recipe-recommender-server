@@ -1,26 +1,45 @@
-const http = require("http")
-const url = require("url")
+const express = require('express')()
+const bodyParser = require('body-parser')
+// const { ApolloServer } = require('apollo-server');
 
-const serverDefinition = (request, response) => {
-    let path = url.parse(request.url).pathname
-    console.log(path)
-    if (path === "/") {
-      response.writeHead(200, { "Content-Type": "text/plain" })
-      response.write("Hello world")
-    } else if (path === "/about") {
-      response.writeHead(200, { "Content-Type": "text/plain" })
-      response.write("About page")
-    } else if (path === "/blog") {
-      response.writeHead(200, { "Content-Type": "text/plain" })
-      response.write("Blog page")
-    } else {
-      response.writeHead(404, { "Content-Type": "text/plain" })
-      response.write("Error page")
-    }
-    response.end()
-  }
+const { User } = require('./data/models')
+const { appConfig } = require('./constants')
+// const typeDefs = require('./src/schema')
 
-  const server = http.createServer(serverDefinition)
-server.listen(3000, () => {
-  console.log("Node server created at port 3000")
+const port = process.env.PORT || appConfig.DEFAULT_PORT
+
+// const server = new ApolloServer({
+//   typeDefs, // type definitions
+//   // resolvers
+//   // dataSources
+// });
+
+//Binding express to a port
+express.listen(port, () => {
+  console.log(`Express server started at port ${port}`)
+ })
+
+express.use(bodyParser.json())
+express.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+)
+
+express.get('/', (_request, response) => {
+  response.json({ info: 'Node.js, Express, and Postgres API' })
 })
+
+express.get('/', (_request, response) => {
+  response.send('Home page');
+});
+
+express.get('/about', (_request, response) => {
+  response.send('About page');
+});
+
+//express.use((_request, response) => {
+//   response.type('text/plain');
+//   response.status(505);
+//   response.send('Error page');
+// });
