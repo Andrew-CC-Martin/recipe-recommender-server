@@ -1,33 +1,45 @@
-const app = require('express')()
-const { ApolloServer } = require('apollo-server');
+const express = require('express')()
+const bodyParser = require('body-parser')
+// const { ApolloServer } = require('apollo-server');
 
-const typeDefs = require('./src/schema')
+const { User } = require('./data/models')
+const { appConfig } = require('./constants')
+// const typeDefs = require('./src/schema')
 
-// const server = new ApolloServer({ typeDefs });
+const port = process.env.PORT || appConfig.DEFAULT_PORT
 
-app.set('port', process.env.PORT || 4000)
+// const server = new ApolloServer({
+//   typeDefs, // type definitions
+//   // resolvers
+//   // dataSources
+// });
 
-app.get('/', (_request, response) => {
+//Binding express to a port
+express.listen(port, () => {
+  console.log(`Express server started at port ${port}`)
+ })
+
+express.use(bodyParser.json())
+express.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+)
+
+express.get('/', (_request, response) => {
+  response.json({ info: 'Node.js, Express, and Postgres API' })
+})
+
+express.get('/', (_request, response) => {
   response.send('Home page');
 });
 
-app.get('/about', (_request, response) => {
+express.get('/about', (_request, response) => {
   response.send('About page');
 });
 
-app.use((_request, response) => {
-  response.type('text/plain');
-  response.status(505);
-  response.send('Error page');
-});
-
-//Binding to a port
-const port = process.env.PORT || 4000
-app.listen(port, ()=>{
- console.log(`Express server started at port ${port}`);
-});
-
-//   const server = http.createServer(serverDefinition)
-// server.listen(3000, () => {
-//   console.log("Node server created at port 3000")
-// })
+//express.use((_request, response) => {
+//   response.type('text/plain');
+//   response.status(505);
+//   response.send('Error page');
+// });
