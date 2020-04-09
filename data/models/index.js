@@ -1,7 +1,9 @@
 const { Sequelize, DataTypes } = require('sequelize')
 
 const config = require('../config/config.json');
+// const userModel = require('./user-backup')
 const userModel = require('./user')
+// import { userModel } from './user'
 const { appConfig } = require('../../constants')
 
 /**
@@ -24,16 +26,17 @@ sequelize.authenticate()
 
 const User = userModel(sequelize, DataTypes)
 
-const muckAround = async () => {
-  await sequelize.sync({ force: true })
-  // console.log('database and tables created')
-  // try {
-  //   await User.create({ name: 'bill', email: 'billemail' })
-  // } catch(err) {
-  //   console.log('Failed to create user:', err.errors[0].message)
-  // }
-}
-muckAround()
+// const muckAround = async () => {
+//   // todo  - get rid of this sync operation once the schema's been sorted (it's destructive)
+//   await sequelize.sync({ force: true })
+//   console.log('database and tables created')
+//   try {
+//     await User.create({ name: 'bill', email: 'billemail' })
+//   } catch(err) {
+//     console.log('Failed to create user:', err.errors[0].message)
+//   }
+// }
+// muckAround()
 
 module.exports = {
   User
