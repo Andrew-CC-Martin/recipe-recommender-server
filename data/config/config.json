@@ -1,7 +1,7 @@
 {
   "development": {
-    "username": "stemshell",
-    "password": "donkey77",
+    "username": "postgres",
+    "password": "postgres",
     "database": "recipe_recommender_development",
     "host": "127.0.0.1",
     "dialect": "postgres"

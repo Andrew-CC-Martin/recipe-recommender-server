@@ -3,6 +3,7 @@ const { Sequelize, DataTypes } = require('sequelize')
 const config = require('../config/config.json');
 // const userModel = require('./user-backup')
 const userModel = require('./user')
+const ingredientModel = require('./ingredient')
 // import { userModel } from './user'
 const { appConfig } = require('../../constants')
 
@@ -25,6 +26,7 @@ sequelize.authenticate()
   .catch(error => console.log('Unable to connect to the database: ', error))
 
 const User = userModel(sequelize, DataTypes)
+const Ingredient = ingredientModel(sequelize, DataTypes)
 
 // const muckAround = async () => {
 //   // todo  - get rid of this sync operation once the schema's been sorted (it's destructive)
@@ -39,7 +41,8 @@ const User = userModel(sequelize, DataTypes)
 // muckAround()
 
 module.exports = {
-  User
+  User,
+  Ingredient
 }
 
 // const fs = require('fs');

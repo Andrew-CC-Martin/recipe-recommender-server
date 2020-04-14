@@ -2,7 +2,7 @@ const express = require('express')()
 const bodyParser = require('body-parser')
 // const { ApolloServer } = require('apollo-server');
 
-const { User } = require('./data/models')
+const { User, Ingredient } = require('./data/models')
 const { appConfig } = require('./constants')
 // const typeDefs = require('./src/schema')
 
@@ -36,6 +36,13 @@ express.get('/', (_request, response) => {
 
 express.get('/about', (_request, response) => {
   response.send('About page');
+});
+
+express.get('/ingredients', async (_request, response) => {
+  const ingredients = await Ingredient.findAll({
+    attributes: ['id', 'name']
+  })
+  response.json(ingredients)
 });
 
 //express.use((_request, response) => {
