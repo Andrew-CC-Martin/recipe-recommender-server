@@ -1,51 +1,57 @@
-const express = require('express')()
-const bodyParser = require('body-parser')
-// const { ApolloServer } = require('apollo-server');
+// todo - figure out if I actually need express for anything
+// const app = require('express')()
+// const bodyParser = require('body-parser')
+const { ApolloServer } = require('apollo-server');
 
-const { User, Ingredient } = require('./data/models')
-const { appConfig } = require('./constants')
-// const typeDefs = require('./src/schema')
+// const { User, Ingredient } = require('./data/models')
+// const { appConfig } = require('./constants')
+const typeDefs = require('./graphql/schema')
+const resolvers = require('./graphql/resolver')
 
-const port = process.env.PORT || appConfig.DEFAULT_PORT
+// const port = process.env.PORT || appConfig.DEFAULT_PORT
 
-// const server = new ApolloServer({
-//   typeDefs, // type definitions
-//   // resolvers
-//   // dataSources
+const gqlServer = new ApolloServer({
+  typeDefs,
+  resolvers
+  // dataSources
+});
+
+gqlServer.listen().then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
+});
+
+// //Binding express to a port
+// app.listen(port, () => {
+//   console.log(`Express server started at port ${port}`)
+//  })
+
+// app.use(bodyParser.json())
+// app.use(
+//   bodyParser.urlencoded({
+//     extended: true
+//   })
+// )
+
+// app.get('/', (_request, response) => {
+//   response.json({ info: 'Node.js, Express, and Postgres API' })
+// })
+
+// app.get('/', (_request, response) => {
+//   response.send('Home page');
 // });
 
-//Binding express to a port
-express.listen(port, () => {
-  console.log(`Express server started at port ${port}`)
- })
+// app.get('/about', (_request, response) => {
+//   response.send('About page');
+// });
 
-express.use(bodyParser.json())
-express.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
-)
+// app.get('/ingredients', async (_request, response) => {
+//   const ingredients = await Ingredient.findAll({
+//     attributes: ['id', 'name']
+//   })
+//   response.json(ingredients)
+// });
 
-express.get('/', (_request, response) => {
-  response.json({ info: 'Node.js, Express, and Postgres API' })
-})
-
-express.get('/', (_request, response) => {
-  response.send('Home page');
-});
-
-express.get('/about', (_request, response) => {
-  response.send('About page');
-});
-
-express.get('/ingredients', async (_request, response) => {
-  const ingredients = await Ingredient.findAll({
-    attributes: ['id', 'name']
-  })
-  response.json(ingredients)
-});
-
-//express.use((_request, response) => {
+//app.use((_request, response) => {
 //   response.type('text/plain');
 //   response.status(505);
 //   response.send('Error page');
